@@ -1,2 +1,3 @@
 # IA-Imersao-Alura
-Chatbot com voz + arduino e Plano de Treinos com Flutter
+
+Chatbot com voz + arduino
