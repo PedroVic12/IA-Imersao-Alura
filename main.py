@@ -144,6 +144,7 @@ class Chatbot:
         with self.mic as fonte:
             self.r.adjust_for_ambient_noise(fonte)
             audio = self.r.listen(fonte)
+            print("Estou ouvindo...")
             try:
                 texto = self.r.recognize_google(audio, language="pt-BR")
                 return texto
@@ -156,7 +157,9 @@ class Chatbot:
         try:
 
             if modo == "2":
-                return self.ouvir_comando_voz()
+                text = self.ouvir_comando_voz()
+                print(f"voce disse: {text}")
+                return text
             elif modo == "1":
                 return input("VOCE: ")
             else:
