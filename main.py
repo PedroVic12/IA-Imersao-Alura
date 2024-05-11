@@ -5,9 +5,17 @@ import os
 import time
 import speech_recognition as sr
 
+
 genai.configure(api_key="AIzaSyDVufkW23RIvdiTrUY3_ql67cnyVTMMIq8")
 
 path = "../voices/"
+
+
+# tive que instalar o espeak manualmente no meu sistema linux (manjaro) com
+
+# sudo pacman -S speak e rodar ele localmente
+
+# coloquei uma variante para ele funcionar com o playsound
 
 
 class TextToSpeechEspeak:
