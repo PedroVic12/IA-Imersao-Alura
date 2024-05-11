@@ -3,6 +3,7 @@ from gtts import gTTS
 from playsound import playsound
 import os
 import time
+import speech_recognition as sr
 
 genai.configure(api_key="AIzaSyDVufkW23RIvdiTrUY3_ql67cnyVTMMIq8")
 
@@ -37,6 +38,8 @@ class TextToSpeech:
 
 class Chatbot:
     def __init__(self):
+        self.r = sr.Recognizer()
+        self.mic = sr.Microphone()
         # Set up the model
         generation_config = {
             "temperature": 1,
@@ -129,10 +132,41 @@ class Chatbot:
         texto = chat.last.text
         return texto
 
+    def ouvir_comando_voz(self):
+        with self.mic as fonte:
+            self.r.adjust_for_ambient_noise(fonte)
+            audio = self.r.listen(fonte)
+            try:
+                texto = self.r.recognize_google(audio, language="pt-BR")
+                return texto
+            except sr.UnknownValueError:
+                return "Não entendi o que você disse."
+            except sr.RequestError as e:
+                return f"Erro ao solicitar resultados; {e}"
+
+    def receber_comando(self, modo):
+        try:
+
+            if modo == "2":
+                return self.ouvir_comando_voz()
+            elif modo == "1":
+                return input("VOCE: ")
+            else:
+                print("Escolha inválida. Por favor, tente novamente.")
+                return None
+        except Exception as e:
+            print(f"Ocorreu um erro: {e}")
+
     def run_chat(self):
+        mode = input(
+            "Digite 1 para conversar por Texto: \nDigite 2 para conversar por voz: "
+        )
+
         while True:
+            os.system("clear")
+            user_input = self.receber_comando(mode)
             # Get user input
-            user_input = input("Você: ")
+            # user_input = input("Você: ")
 
             # Send user input to the model
             text = self.start_chat(user_input)
