@@ -1,3 +1,5 @@
 google.generativeai
 gtts 
 playsound 
+SpeechRecognition
+pyaudio

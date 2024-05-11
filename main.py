@@ -159,7 +159,7 @@ class Chatbot:
 
     def run_chat(self):
         mode = input(
-            "Digite 1 para conversar por Texto: \nDigite 2 para conversar por voz: "
+            "\nDigite 1 para conversar por Texto: \nDigite 2 para conversar por voz: "
         )
 
         while True:
