@@ -11,9 +11,11 @@ genai.configure(api_key="AIzaSyDVufkW23RIvdiTrUY3_ql67cnyVTMMIq8")
 path = "../voices/"
 
 
-# tive que instalar o espeak manualmente no meu sistema linux (manjaro) com
+# tive que instalar o espeak manualmente no meu sistema linux (manjaro) com:
 
-# sudo pacman -S speak e rodar ele localmente
+# sudo yay -S speak e rodar ele localmente
+
+# esse pacote é o mesmo que funciona a lib pyttsx3
 
 # coloquei uma variante para ele funcionar com o playsound
 
@@ -188,9 +190,8 @@ class Chatbot:
 
         while True:
             os.system("clear")
-            user_input = self.receber_comando(mode)
             # Get user input
-            # user_input = input("Você: ")
+            user_input = self.receber_comando(mode)
 
             # Send user input to the model
             text = self.start_chat(user_input)
