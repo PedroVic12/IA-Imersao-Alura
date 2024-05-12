@@ -142,11 +142,12 @@ class Chatbot:
 
     def ouvir_comando_voz(self):
         with self.mic as fonte:
+            print("\nEstou ouvindo...")
             self.r.adjust_for_ambient_noise(fonte)
             audio = self.r.listen(fonte)
-            print("Estou ouvindo...")
             try:
                 texto = self.r.recognize_google(audio, language="pt-BR")
+                os.system("clear")
                 return texto
             except sr.UnknownValueError:
                 return "Não entendi o que você disse."
@@ -158,7 +159,7 @@ class Chatbot:
 
             if modo == "2":
                 text = self.ouvir_comando_voz()
-                print(f"voce disse: {text}")
+                print(f"\nVoce disse: {text}")
                 return text
             elif modo == "1":
                 return input("VOCE: ")
