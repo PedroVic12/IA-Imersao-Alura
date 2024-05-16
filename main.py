@@ -1,49 +1,10 @@
+import threading
 import google.generativeai as genai
-from gtts import gTTS
-from playsound import playsound
 import os
-import time
 import speech_recognition as sr
-
+from src.TextSpeakClone import TextToSpeakIA
 
 genai.configure(api_key="AIzaSyDVufkW23RIvdiTrUY3_ql67cnyVTMMIq8")
-
-path = "../voices/"
-
-
-# tive que instalar o espeak manualmente no meu sistema linux (manjaro) com:
-
-# sudo yay -S speak e rodar ele localmente
-
-# esse pacote é o mesmo que funciona a lib pyttsx3
-
-# coloquei uma variante para ele funcionar com o playsound
-
-
-class TextToSpeechEspeak:
-
-    def __init__(self, lang="pt-br", voice="pt-br+f2"):
-        self.lang = lang
-        self.voice = voice
-
-    def speak(self, text):
-        command = f"espeak -v {self.lang}+{self.voice} '{text}'"
-        os.system(command)
-
-
-class TextToSpeech:
-
-    def __init__(self, text, lang="pt-br", rate=150, speed=1):
-        self.text = text
-        self.lang = lang
-        self.rate = rate
-
-    def generate_audio(self, filename=f"{path}/sound.mp3"):
-        tts = gTTS(self.text, lang=self.lang)
-        tts.save(filename)
-
-    def play_audio(self, filename=f"{path}/sound.mp3"):
-        playsound(filename)
 
 
 class Chatbot:
@@ -83,7 +44,7 @@ class Chatbot:
             safety_settings=safety_settings,
         )
 
-        self.tts = TextToSpeechEspeak()
+        self.tts = TextToSpeakIA()
 
     def start_chat(self, user_input):
         history = [
@@ -164,7 +125,7 @@ class Chatbot:
                 os.system("clear")
                 return texto
             except sr.UnknownValueError:
-                return "Não entendi o que você disse."
+                return "Peço perdão parece que deu algum problema no meu microfone"
             except sr.RequestError as e:
                 return f"Erro ao solicitar resultados; {e}"
 
@@ -183,6 +144,9 @@ class Chatbot:
         except Exception as e:
             print(f"Ocorreu um erro: {e}")
 
+    def print_text(self, text):
+        print(f"C3PO: {text}")
+
     def run_chat(self):
         mode = input(
             "\nDigite 1 para conversar por Texto: \nDigite 2 para conversar por voz: "
@@ -196,11 +160,16 @@ class Chatbot:
             # Send user input to the model
             text = self.start_chat(user_input)
 
-            # Print the model response
-            print(f"C3PO: {text}")
+            # Print the model response in a separate thread
+            print_thread = threading.Thread(target=self.print_text, args=(text,))
 
             # Speak the model response
             self.tts.speak(text)
+
+            print_thread.start()
+
+            # Wait for the print thread to finish before returning
+            print_thread.join()
 
 
 if __name__ == "__main__":
