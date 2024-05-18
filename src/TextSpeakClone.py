@@ -1,4 +1,4 @@
-from elevenlabs import Voice, VoiceSettings, play
+from elevenlabs import Voice, VoiceSettings, play, stream
 from elevenlabs.client import ElevenLabs
 
 
@@ -27,7 +27,7 @@ class TextToSpeakIA:
                 ),
             )
 
-        play(audio)
+        stream(audio)
 
     def cloneVoice(self):
 

@@ -162,11 +162,10 @@ class Chatbot:
 
             # Print the model response in a separate thread
             print_thread = threading.Thread(target=self.print_text, args=(text,))
+            print_thread.start()
 
             # Speak the model response
             self.tts.speak(text)
-
-            print_thread.start()
 
             # Wait for the print thread to finish before returning
             print_thread.join()
