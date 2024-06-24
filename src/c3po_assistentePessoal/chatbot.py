@@ -14,6 +14,7 @@ import pyttsx3
 import speech_recognition as sr
 import google.generativeai as genai
 import os
+from ttts_simples import TextToSpeechEspeak
 
 GEMINI_KEY = "AIzaSyDVufkW23RIvdiTrUY3_ql67cnyVTMMIq8"
 genai.configure(api_key=GEMINI_KEY)
@@ -56,15 +57,6 @@ class C3PoAssisstente:
         print(response.text)
 
 
-def main():
-    assistente = C3PoAssisstente()
-    response = assistente.modeloTextoGenerativo("Ola bom dia, como esta?, ")
-    print(response)
-
-
-main()
-
-
 class ChatbotAssistente(C3PoAssisstente):
     def __init__(self):
         super().__init__()
@@ -74,6 +66,7 @@ class ChatbotAssistente(C3PoAssisstente):
             self.engine.setProperty("rate", 170)
             self.r = sr.Recognizer()
             self.mic = sr.Microphone()
+            self.ttsSimples = TextToSpeechEspeak()
         except:
             print("c3po sem som")
 
@@ -131,6 +124,7 @@ class ChatbotAssistente(C3PoAssisstente):
 
             response = chat.send_message(texto)
             print("Gemini:", response.text, "\n")
+            self.ttsSimples.speak(response.text)
             # self.falar_resposta(response.text)
 
         print("Encerrando Chat")

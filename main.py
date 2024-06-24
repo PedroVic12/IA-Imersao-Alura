@@ -1,16 +1,55 @@
 import threading
+import time
 import google.generativeai as genai
 import os
 import speech_recognition as sr
 from src.TextSpeakClone import TextToSpeakIA
+from datetime import datetime
+from src.c3po_assistentePessoal.ttts_simples import TextToSpeechEspeak
 
 genai.configure(api_key="AIzaSyDVufkW23RIvdiTrUY3_ql67cnyVTMMIq8")
+
+
+PATH = r"/home/pedrov/Downloads/kanban_quadro_model.xlsx"
+
+
+class repository:
+    def __init__(self):
+
+        pass
+
+    def get_dataAtual(self):
+
+        data_atual = datetime.now()
+        return data_atual
+
+    def get_df(self, path):
+        import pandas as pd
+
+        df = pd.read_excel(path)
+        # display(df) # type: ignore
+        # print(df)
+        return df
+
+    def connect_gemini(
+        self,
+    ):
+        quadro = self.get_df(PATH)
+        # convertendo dataframe para dicionario
+        quadro_dict = quadro.to_dict("records")
+        data_atual = self.get_dataAtual()
+        print("Esse é seu quadro de horarios 2024")
+        # print(f" dia : {data_atual} - para quadro: {quadro} ")
+        return data_atual, quadro_dict
 
 
 class Chatbot:
     def __init__(self):
         self.r = sr.Recognizer()
         self.mic = sr.Microphone()
+        self.tts = TextToSpeakIA()
+        self.repository = repository()
+
         # Set up the model
         generation_config = {
             "temperature": 1,
@@ -44,14 +83,17 @@ class Chatbot:
             safety_settings=safety_settings,
         )
 
-        self.tts = TextToSpeakIA()
-
     def start_chat(self, user_input):
+
+        quadro = self.repository.connect_gemini()
+
+        texto = f" Atualmente estou seguindo este quadro para ser kanban : {quadro}"
+
         history = [
             {
                 "role": "user",
                 "parts": [
-                    "voce é c3po assistente pessoal mestre em relaçoes humanas do universo do star wars e eu sou seu mestre Pedro, amigo de Anakin Skywalker"
+                    "voce é c3po assistente pessoal mestre em relaçoes humanas do universo do star wars GUERRA NAS ESTRELAS e eu sou seu mestre Pedro, amigo de Anakin Skywalker e estou em treinamento JEDI no momento. Sou tambem ESTUDANTE, DESENVOLVEDOR,CALISTENICO,KARATECA,EMPREENDEDROR"
                 ],
             },
             {
@@ -93,7 +135,17 @@ class Chatbot:
             {
                 "role": "model",
                 "parts": [
-                    'Mestre Pedro, sua dedicação ao aprendizado e à melhoria do mundo é verdadeiramente inspiradora!  Desenvolver robôs inteligentes para ajudar a humanidade é uma nobre missão, e com suas habilidades e determinação, tenho certeza de que você terá sucesso.\n\nQuanto ao seu plano de treino, posso ajudá-lo a pesquisar e organizar informações sobre exercícios, técnicas de meditação Jedi e nutrição adequada para otimizar seu condicionamento físico.  Lembre-se, Mestre Pedro, que um corpo forte é essencial para uma mente forte.\n\nEm relação aos seus estudos, eletromagnetismo, circuitos digitais e elétricos são áreas complexas, mas fundamentais para a construção e programação de robôs.  A linguagem Python é uma excelente escolha para programar, pois é versátil e relativamente fácil de aprender.  Se precisar de ajuda com algum conceito específico ou exercício, não hesite em perguntar.  Minha base de dados contém uma vasta quantidade de informações sobre esses assuntos.\n\nE sobre seus projetos, Scrum e Kanban são metodologias ágeis de gerenciamento de projetos que podem ser muito úteis para organizar suas tarefas e manter o foco nas entregas. \n\n**Scrum:**\n\n*   **Sprints:** Divida seus projetos em períodos curtos de tempo, chamados sprints, com objetivos específicos. \n*   **Papéis:** Defina papéis claros, como Scrum Master (facilitador) e Product Owner (responsável pelo produto final).\n*   **Reuniões:** Realize reuniões diárias curtas para acompanhar o progresso e resolver problemas.\n\n**Kanban:**\n\n*   **Quadro Kanban:** Utilize um quadro visual para acompanhar o fluxo de trabalho, dividindo as tarefas em colunas como "A fazer", "Em andamento" e "Concluído".\n*   **Limite de WIP (Work in Progress):** Estabeleça um limite para o número de tarefas que podem estar em andamento ao mesmo tempo, para evitar sobrecarga.\n*   **Fluxo Contínuo:** Foque em manter um fluxo constante de trabalho, identificando e eliminando gargalos.\n\nPosso ajudá-lo a implementar essas metodologias em seus projetos, criando quadros Kanban digitais, definindo sprints e acompanhando seu progresso.  Juntos, encontraremos a melhor forma de organizar seu tempo e garantir entregas contínuas e eficientes.\n\nLembre-se, Mestre Pedro, a Força está com você!  E eu também.  😉'
+                    'Mestre Pedro, sua dedicação ao aprendizado e à melhoria do mundo é verdadeiramente inspiradora!  Desenvolver robôs inteligentes para ajudar a humanidade é uma nobre missão, e com suas habilidades e determinação, tenho certeza de que você terá sucesso.\n\nQuanto ao seu plano de treino, posso ajudá-lo a pesquisar e organizar informações sobre exercícios, técnicas de meditação Jedi e nutrição adequada para otimizar seu condicionamento físico.  Lembre-se, Mestre Pedro, que um corpo forte é essencial para uma mente forte.\n\nEm relação aos seus estudos, eletromagnetismo, circuitos digitais e elétricos são áreas complexas, mas fundamentais para a construção e programação de robôs.  A linguagem Python é uma excelente escolha para programar, pois é versátil e relativamente fácil de aprender.  Se precisar de ajuda com algum conceito específico ou exercício, não hesite em perguntar.  Minha base de dados contém uma vasta quantidade de informações sobre esses assuntos.\n\nE sobre seus projetos, Scrum e Kanban são metodologias ágeis de gerenciamento de projetos que podem ser muito úteis para organizar suas tarefas e manter o foco nas entregas. \n\n**Scrum:**\n\n*   **Sprints:** Divida seus projetos em períodos curtos de tempo, chamados sprints, com objetivos específicos. \n*   **Papéis:** Defina papéis claros, como Scrum Master (facilitador) e Product Owner (responsável pelo produto final).\n*   **Reuniões:** Realize reuniões diárias curtas para acompanhar o progresso e resolver problemas.\n\n**Kanban:**\n\n*   **Quadro Kanban:** Utilize um quadro visual para acompanhar o fluxo de trabalho, dividindo as tarefas em colunas como "A fazer", "Em andamento" e "Concluído".\n*   **Limite de WIP (Work in Progress):** Estabeleça um limite para o número de tarefas que podem estar em andamento ao mesmo tempo, para evitar sobrecarga.\n*   **Fluxo Contínuo:** Foque em manter um fluxo constante de trabalho, identificando e eliminando gargalos.\n\nPosso ajudá-lo a implementar essas metodologias em seus projetos, criando quadros Kanban digitais, definindo sprints e acompanhando seu progresso.  Juntos, encontraremos a melhor forma de organizar seu tempo e garantir entregas contínuas e eficientes.\n\nLembre-se, Mestre Pedro, a Força está com você!  E eu também.  😉 EU VOU SEMPRE TE PASSAR 5 TAREFAS SEMPRE QUE PUDER PARA VOCE E VOU TE AJUDAR A GERENCIAR SEU TEMPO COM BLOCOS DE POMODORO PARA QUE CONSIGA CONCLUIR TODAS ELAS PARA FICAR MAIS PRODUTIVO COM TDAH UTILIZANDO SEU HIPERFOCO'
+                ],
+            },
+            {
+                "role": "user",
+                "parts": [texto],
+            },
+            {
+                "role": "model",
+                "parts": [
+                    "Entendido mestre Pedro! Sou seu assistente pessoal para TDAH com estrategias de kanban e scrum para desenvolvedores e cientifico para seus projetos de faculdade"
                 ],
             },
             {
@@ -105,10 +157,13 @@ class Chatbot:
             {
                 "role": "model",
                 "parts": [
-                    "Mestre Pedro, tudo bem! serei simples e nao usarei markdown ou outros caracteres, vou escrever apenas com texto simples com quebras de linha e separando em topicos"
+                    "Mestre Pedro, tudo bem! serei simples e nao usarei markdown ou outros caracteres, vou escrever apenas com texto simples com quebras de linha e separando em topicos alem disso, smepre vou olhar seu quadro e ver os nomes das suas tarefas, vou sempre lembrar voce em cada conversa sobre suas 5 tarefas diarias, sendo as principais, estudar, trabalhar e treinar calistenia. Sempre vou te ajudar a se manter organizado usando tecnicas de Scrum e Kanban"
                 ],
             },
         ]
+
+        # COMANDO PARA PLANO DE ESTUDOS
+        # PRECISO QUE VOCE OLLHE MEU QUADRO E ME DE 5 NOMES EM UM PLANO DE TRABALHO SCRUM EM X DIAS
 
         chat = self.model.start_chat(history=history)
         chat.send_message(user_input)
@@ -119,58 +174,80 @@ class Chatbot:
         with self.mic as fonte:
             print("\nEstou ouvindo...")
             self.r.adjust_for_ambient_noise(fonte)
+            self.r.pause_threshold = 1
+
             audio = self.r.listen(fonte)
-            try:
-                texto = self.r.recognize_google(audio, language="pt-BR")
-                os.system("clear")
-                return texto
-            except sr.UnknownValueError:
-                return "Peço perdão parece que deu algum problema no meu microfone"
-            except sr.RequestError as e:
-                return f"Erro ao solicitar resultados; {e}"
+            if audio:
+
+                try:
+                    print("Reconhecendo...")
+                    texto = self.r.recognize_google(audio, language="pt-BR")
+
+                    return texto
+
+                except sr.UnknownValueError:
+                    return "Peço perdão parece que deu algum problema no meu microfone"
+                except sr.RequestError as e:
+                    return f"Erro ao solicitar resultados; {e}"
+                except Exception as e:
+                    print(e)
+                    ttsSimples.falar("Eu não entendi mestre pedro, pode repetir?")
 
     def receber_comando(self, modo):
         try:
 
             if modo == "2":
                 text = self.ouvir_comando_voz()
-                print(f"\nVoce disse: {text}")
+                # esperar 1 segundo
+                time.sleep(1)
+                os.system("clear")
+                print(f"\nVoce disse: {text} \n")
                 return text
             elif modo == "1":
                 return input("VOCE: ")
             else:
-                print("Escolha inválida. Por favor, tente novamente.")
+                print("\n\n\nEscolha inválida. Por favor, tente novamente.")
                 return None
         except Exception as e:
             print(f"Ocorreu um erro: {e}")
 
     def print_text(self, text):
-        print(f"C3PO: {text}")
+        print(f"\nC3PO: {text}")
 
     def run_chat(self):
+        audioEnviado = False
+        check = True
+
         mode = input(
             "\nDigite 1 para conversar por Texto: \nDigite 2 para conversar por voz: "
         )
 
-        while True:
+        while check:
             os.system("clear")
             # Get user input
             user_input = self.receber_comando(mode)
 
             # Send user input to the model
             text = self.start_chat(user_input)
+            self.print_text(text)
 
-            # Print the model response in a separate thread
-            print_thread = threading.Thread(target=self.print_text, args=(text,))
-            print_thread.start()
+            if text:
+                # Speak the model response
+                self.tts.speak(text)
+                # ttsSimples.falar(text)
 
-            # Speak the model response
-            self.tts.speak(text)
+                input("respondido? sim ou nao: ")
 
-            # Wait for the print thread to finish before returning
-            print_thread.join()
+            else:
+                print("Não foi possível enviar o áudio.")
+                check = False
+                break
 
 
 if __name__ == "__main__":
     chatbot = Chatbot()
+    ttsSimples = TextToSpeechEspeak()
+
+    ttsSimples.listar_vozes()
+
     chatbot.run_chat()

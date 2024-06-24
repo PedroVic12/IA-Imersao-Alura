@@ -5,10 +5,11 @@ from elevenlabs.client import ElevenLabs
 class TextToSpeakIA:
     def __init__(self):
         self.client = ElevenLabs(
-            api_key="36cade3cad57317addce70ccf7d443e7",  # Defaults to ELEVEN_API_KEY
+            api_key="0c76ddcdc2d1aace04fda8e819f8b1ac",  # Defaults to ELEVEN_API_KEY
         )
 
     def speak(self, text: str, id=1):
+
         if id == 1:
             audio = self.client.generate(
                 text=text, voice="Josh", model="eleven_multilingual_v2"
@@ -26,8 +27,13 @@ class TextToSpeakIA:
                     ),
                 ),
             )
+        try:
+            # stream(audio)
+            play(audio)
+            print("audio enviado!")
 
-        stream(audio)
+        except Exception as e:
+            print("falha ao executar a voz c3po", e)
 
     def cloneVoice(self):
 
@@ -48,7 +54,9 @@ class TextToSpeakIA:
 
 def main():
     tts = TextToSpeakIA()
-    tts.speak("alo alo galera do cauboi alo alo galera do piao")
+    tts.speak(
+        "alo alo galera do cauboi alo alo galera do piao, esta chegando sexta feira sua lindaaaa, vem ni mim"
+    )
 
 
-# main()
+main()
