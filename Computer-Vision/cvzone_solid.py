@@ -39,8 +39,21 @@ class ShapeDetector:
         self.find_contours_no_filtering()
         self.find_contours_filtered()
 
+
+
+class contornosObjetos:
+    def __init__(self):
+        pass
+
+    def createColorFinder(self):
+        myColorFinder = cvzone.ColorFinder(trabckbar = True)
+
+
+        
 if __name__ == "__main__":
     url = 'https://github.com/cvzone/cvzone/blob/master/Results/shapes.png?raw=true'
     detector = ShapeDetector(url)
+    if detector:
+        print("Ok!")
     detector.run()
     # ... (process results as needed)

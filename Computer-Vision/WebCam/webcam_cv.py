@@ -47,6 +47,7 @@ class WebCam:
 
         sucesso, imagem = cap.read()
         return cap, sucesso, imagem
+    
 
     def achar_contorno(self):
         pass
