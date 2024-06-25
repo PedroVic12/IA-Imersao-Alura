@@ -1,7 +1,9 @@
 """
 Hand Tracking Module
 By: Computer Vision Zone
-Website: https://www.computervision.zone/
+
+todo
+https://www.youtube.com/watch?v=ieXQTtQgyo0&t=2709s
 """
 
 import math
