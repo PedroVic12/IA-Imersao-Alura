@@ -7,7 +7,8 @@ from src.TextSpeakClone import TextToSpeakIA
 from datetime import datetime
 from src.c3po_assistentePessoal.ttts_simples import TextToSpeechEspeak
 
-genai.configure(api_key="AIzaSyDVufkW23RIvdiTrUY3_ql67cnyVTMMIq8")
+genai.configure(api_key="AIzaSyCZhKI6vWIAK0GkzXajc-PUjTBEO5zjoeA")
+
 
 
 PATH = r"/home/pedrov/Downloads/kanban_quadro_model.xlsx"
@@ -49,6 +50,7 @@ class Chatbot:
         self.mic = sr.Microphone()
         self.tts = TextToSpeakIA()
         self.repository = repository()
+        print("C3po Carregado")
 
         # Set up the model
         generation_config = {
@@ -164,11 +166,15 @@ class Chatbot:
 
         # COMANDO PARA PLANO DE ESTUDOS
         # PRECISO QUE VOCE OLLHE MEU QUADRO E ME DE 5 NOMES EM UM PLANO DE TRABALHO SCRUM EM X DIAS
-
-        chat = self.model.start_chat(history=history)
-        chat.send_message(user_input)
-        texto = chat.last.text
-        return texto
+        
+        
+        try:
+            chat = self.model.start_chat(history=history)
+            chat.send_message(user_input)
+            texto = chat.last.text
+            return texto
+        except Exception as e:
+            print("Erro ao responder",e)
 
     def ouvir_comando_voz(self):
         with self.mic as fonte:
@@ -233,8 +239,8 @@ class Chatbot:
 
             if text:
                 # Speak the model response
-                self.tts.speak(text)
-                # ttsSimples.falar(text)
+                #self.tts.speak(text)
+                ttsSimples.falar(text)
 
                 input("respondido? sim ou nao: ")
 

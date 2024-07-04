@@ -54,9 +54,9 @@ class TextToSpeakIA:
 
 def main():
     tts = TextToSpeakIA()
-    tts.speak(
-        "alo alo galera do cauboi alo alo galera do piao, esta chegando sexta feira sua lindaaaa, vem ni mim"
-    )
+    # tts.speak(
+    #    "alo alo galera do cauboi alo alo galera do piao, esta chegando sexta feira sua lindaaaa, vem ni mim"
+    # )
 
 
 main()
