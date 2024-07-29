@@ -158,7 +158,9 @@ class PoseDetector:
 
 def main():
     # Initialize the webcam and set it to the third camera (index 2)
-    cap = cv2.VideoCapture(0)
+    video_karate = "/home/pedrov/Vídeos/Gravações de tela/dataset_golpes_karate.webm"
+
+    cap = cv2.VideoCapture(video_karate)
 
     # Initialize the PoseDetector class with the given parameters
     detector = PoseDetector(staticMode=False,

@@ -164,6 +164,9 @@ class VideoProcessor:
 def main_openCV_Jarvis():
     # Initialize the webcam to capture video
     # The '2' indicates the third camera connected to your computer; '0' would usually refer to the built-in camera
+
+    video_karate = "/home/pedrov/Vídeos/Gravações de tela/dataset_golpes_karate.webm"
+
     cap = cv2.VideoCapture(0)
 
     # Initialize the HandDetector class with the given parameters

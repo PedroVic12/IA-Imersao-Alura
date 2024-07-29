@@ -8,9 +8,9 @@ from google.auth import credentials as ga_credentials
 import google.generativeai as genai
 from datetime import datetime
 
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
-load_dotenv()
+#load_dotenv()
 
 API_KEY = "AIzaSyCZhKI6vWIAK0GkzXajc-PUjTBEO5zjoeA"
 BASE_URL = "https://api.generativeai.google.com/v1beta2"

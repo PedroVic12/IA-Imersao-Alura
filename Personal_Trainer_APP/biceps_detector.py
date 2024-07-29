@@ -30,6 +30,7 @@ while True:
         # Get the center of the bounding box around the body
         center = bboxInfo["center"]
 
+
         # Draw a circle at the center of the bounding box
         cv2.circle(img, center, 5, (255, 0, 255), cv2.FILLED)
 
