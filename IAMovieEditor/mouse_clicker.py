@@ -54,8 +54,8 @@ if __name__ == "__main__":
     chrome = ChromeAutomation()
     
     try:
-        chrome.navigate_to_url("https://www.example.com")
-        time.sleep(2)
+        chrome.navigate_to_url("https://globoplay.globo.com/")
+        time.sleep(5)
         
         chrome.take_screenshot("exemplo.png")
         
