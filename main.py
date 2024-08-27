@@ -238,9 +238,13 @@ class Chatbot:
             self.print_text(text)
 
             if text:
+
+
+
+
                 # Speak the model response
-                #self.tts.speak(text)
-                ttsSimples.falar(text)
+                self.tts.speak(text)
+                #ttsSimples.falar(text)
 
                 input("respondido? sim ou nao: ")
 
